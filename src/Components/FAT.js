@@ -7,17 +7,20 @@ function FAT() {
   const [height,setHeight]=useState('');
   const [gender,setGender]=useState('');
   const [age,setAge]=useState('');
-  const [percentage,setPercentage]=useState('');
+  const [percentage,setPercentage]=useState('0.0');
+  const [click,setClick]=useState('');
 
 
   const CalcFat = (e) => {
     e.preventDefault();
+
+    setClick(true);
     
     let bfp=0;
-    if(weight === '' || height === '' || gender === '' ||age === '') {
+    if(!(weight>0 && weight<=700) || !(height>0 && height<=700) || !(gender ==='Male' || gender ==='Female') || !(age>0 && age<=150)) {
       toaster.danger('Please enter all the details!');
     }
-    else{
+    else if((weight>0 && weight<=700) && (height>0 && height<=700) && (gender ==='Male' || gender ==='Female') && (age>0 && age<=150)){
       toaster.success('BFP calculated successfully!');
       let bmi = ((weight/height)/height)*10000;
       if(gender==='Male' || gender==='Male ')
@@ -80,22 +83,22 @@ function FAT() {
   let imgSrc;
   if(percentage === ''){
     imgSrc=null;
-    msg='';
+    msg=' ';
   }
   else if(percentage>1){
     imgSrc = require('../Components/assetss/bfp4.png');
   }
 
-
+   console.log(msg);
 
   let reload = () => {
     setWeight('');
     setHeight('');
     setGender('');
     setAge('');
-    setPercentage('');
-    imgSrc=null;
-    msg='';
+    setPercentage('0.0');
+    setClick(false);
+    msg='0';
   }
 
   return (
@@ -125,14 +128,20 @@ function FAT() {
               </form>
 
                 <button className='btn btn-outline' onClick={reload} type='reload'>Reset</button>
+                {
+                  click===true &&
                   <div className='center'>
-                      <h3>Your Body Fat Percentage is : {percentage} %</h3>
-                      <p>{msg}</p>
+                  <h3>Your Body Fat Percentage is : {percentage} %</h3>
+                  <p>{msg}</p>
                   </div>
-                  <br/>
+                }
+                {
+                  click===true &&
                   <div className='img-container'>
-                    <img src={imgSrc} alt=''></img>
+                   <img src={imgSrc} alt=''></img>
                   </div>
+                }
+
                   <br/>
                 <footer className='footer'>
                     <h4>Made with <span style={{color:"red"}}>&hearts;</span> by Shibom</h4>
