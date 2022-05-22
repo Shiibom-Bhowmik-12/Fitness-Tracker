@@ -9,16 +9,19 @@ function BMI() {
   
   const [weight,setWeight]=useState('');
   const [height,setHeight]=useState('');
-  const [bmi,setBmi]=useState('0');
+  const [bmi,setBmi]=useState('0.0');
   const [message, setMessage] = useState('');
+  const [click,setClick]=useState(false);
+
 
   const calcBmi = (e) =>{
     e.preventDefault();
+    setClick(true);
 
-    if (weight === '' || height === '') {
+    if (!(weight>0 && weight<=700) || !(height>0 && height<=700)) {
       toaster.danger('Please enter a valid weight and height!');
     }
-    else {
+    else if((weight>0 && weight<=700) && (height>0 && height<=700)){
       toaster.success('BMI calculated successfully!');
       let bmi = ((weight/height)/height)*10000;
       setBmi(bmi.toFixed(1));
@@ -63,7 +66,8 @@ function BMI() {
     setWeight('');
     setHeight('');
     setMessage('');
-    setBmi('');
+    setBmi('0.0');
+    setClick(false);
     imgSrc=null;
   }
 
@@ -78,27 +82,34 @@ function BMI() {
           </div>
           <div>
             <label>Height (cm) :</label>
-            <input value={height} placeholder="Enter your height" onChange={(event) => setHeight(event.target.value)} />
+            <input  value={height} placeholder="Enter your height" onChange={(e) => setHeight(e.target.value)} />
           </div>
           <div>
             <button className='btn' type='submit'>Submit</button>
           </div>
         </form>
         <button className='btn btn-outline' onClick={reload} type='reload'>Reset</button>
-        <div className='center'>
-          <h3>Your BMI is : {bmi}</h3>
-          <p>{message}</p>
-        </div>
-
-      <div className='img-container'>
-        <img src={imgSrc} alt=''></img>
-      </div>
+        {
+           click===true &&
+           <div className='center'>
+            <h3>Your BMI is : {bmi}</h3>
+            <p>{message}</p>
+          </div>
+        }
+        {
+          click===true &&
+          <div className='img-container'>
+                <img src={imgSrc} alt=''></img>
+          </div>
+        }
+ 
+      <br/>
       <footer className='footer'>
       <h4>Made with <span style={{color:"red"}}>&hearts;</span> by Shibom</h4>
       </footer>
     </div>
   </div>
-);
+ );
 }
 
 export default BMI;
