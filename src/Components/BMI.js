@@ -16,12 +16,12 @@ function BMI() {
 
   const calcBmi = (e) =>{
     e.preventDefault();
-    setClick(true);
 
     if (!(weight>0 && weight<=700) || !(height>0 && height<=700)) {
       toaster.danger('Please enter a valid weight and height!');
     }
     else if((weight>0 && weight<=700) && (height>0 && height<=700)){
+      setClick(true);
       toaster.success('BMI calculated successfully!');
       let bmi = ((weight/height)/height)*10000;
       setBmi(bmi.toFixed(1));
