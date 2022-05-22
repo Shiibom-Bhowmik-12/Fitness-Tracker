@@ -13,14 +13,13 @@ function FAT() {
 
   const CalcFat = (e) => {
     e.preventDefault();
-
-    setClick(true);
     
     let bfp=0;
     if(!(weight>0 && weight<=700) || !(height>0 && height<=700) || !(gender ==='Male' || gender ==='Female') || !(age>0 && age<=150)) {
       toaster.danger('Please enter all the details!');
     }
     else if((weight>0 && weight<=700) && (height>0 && height<=700) && (gender ==='Male' || gender ==='Female') && (age>0 && age<=150)){
+      setClick(true);
       toaster.success('BFP calculated successfully!');
       let bmi = ((weight/height)/height)*10000;
       if(gender==='Male' || gender==='Male ')
