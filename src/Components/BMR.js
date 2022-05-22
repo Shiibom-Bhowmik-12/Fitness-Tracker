@@ -12,16 +12,18 @@ function BMR() {
   const [age,setAge]=useState('');
   const [message,setMessage]=useState('');
   const [calories,setCalories]=useState('0');
+  const [click,setClick]=useState(false);
 
   let CalcBmr = (e) => {
     //prevent submitting empty
     e.preventDefault();
+    setClick(true);
     
     let bmr=0;
-    if (weight === '' || height === '' || gender === '' || age === '') {
+    if(!(weight>0 && weight<=700) || !(height>0 && height<=700) || !(gender ==='Male' || gender ==='Female') || !(age>0 && age<=150)) {
       toaster.danger('Please enter a valid weight, height and gender!');
     }
-    else{
+    else if((weight>0 && weight<=700) && (height>0 && height<=700) && (gender ==='Male' || gender ==='Female') && (age>0 && age<=150)){
       toaster.success('BMR calculated successfully!');
       if(gender === 'Male'){
         bmr=88.362 + (13.397*weight) + (4.799*height) - (5.677*age);
@@ -62,11 +64,7 @@ function BMR() {
     }
   }
 
-  let imgSrc=null;
-  if(calories < 1){
-    imgSrc = null;
-  }
-  else{
+    var imgSrc;
     if(calories >100 && calories <=1000){
       imgSrc=require('../Components/assetss/food.png');
     }
@@ -94,17 +92,16 @@ function BMR() {
     else{
       imgSrc=require('../Components/assetss/food8.png');
     }
-  }
 
-  let reload = () => {
-    setWeight('');
-    setHeight('');
-    setGender('');
-    setAge('');
-    setMessage('');
-    setCalories('');
-    imgSrc=null;
-  }
+    let reload = () => {
+      setWeight('');
+      setHeight('');
+      setGender('');
+      setAge('');
+      setMessage('');
+      setCalories('0');
+      setClick(false);
+    }
 
   return (
     <div className="app">
@@ -133,14 +130,20 @@ function BMR() {
           </form>
 
             <button className='btn btn-outline' onClick={reload} type='reload'>Reset</button>
-            <div className='center'>
-              <h3>Your Calories intake is : {calories} /day</h3>
-              <p>{message}</p>
-            </div>
-
-            <div className='img-container'>
-              <img src={imgSrc} alt=''></img>
-            </div>
+            {
+              click===true && 
+                <div className='center'>
+                  <h3>Your Calories intake is : {calories} /day</h3>
+                  <p>{message}</p>
+                </div>  
+            }
+            {
+              click===true &&
+              <div className='img-container'>
+                 <img src={imgSrc} alt=''></img>
+              </div>
+            }
+  
 
             <br/>
             <footer className='footer'>
