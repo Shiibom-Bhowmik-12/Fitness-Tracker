@@ -17,13 +17,13 @@ function BMR() {
   let CalcBmr = (e) => {
     //prevent submitting empty
     e.preventDefault();
-    setClick(true);
     
     let bmr=0;
     if(!(weight>0 && weight<=700) || !(height>0 && height<=700) || !(gender ==='Male' || gender ==='Female') || !(age>0 && age<=150)) {
       toaster.danger('Please enter a valid weight, height and gender!');
     }
     else if((weight>0 && weight<=700) && (height>0 && height<=700) && (gender ==='Male' || gender ==='Female') && (age>0 && age<=150)){
+      setClick(true);
       toaster.success('BMR calculated successfully!');
       if(gender === 'Male'){
         bmr=88.362 + (13.397*weight) + (4.799*height) - (5.677*age);
